@@ -5,4 +5,4 @@ In that repository you will find random notebooks of various random projects I h
 
 For now you will find stuffs about.
 + some engineering problem 
-# some basic camera matrix projection for immersive video, just an example
++ some basic camera matrix projection for immersive video, just an example
