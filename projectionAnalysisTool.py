@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib as mpl
 import matplotlib.patches as patches
 import sys
-sys.path += ['/home/viorama/cv/bin']
+#sys.path += ['/home/viorama/cv/bin']
 #import stitcherOutput_pb2
 #import stitcherAnalysisTool
 import math
@@ -54,8 +54,32 @@ def fun_create_test_points(image_width, image_height, sample_step = 5):
 
     return data_XYZ
 
+def fun_create_Rotation_Matrix_Xaxis(angle_value):
+    """The function create a rotation matrix around the X axis
+    that can be used for test."""
+
+    R = np.eye(3)
+    R[1,1] =   np.cos(angle_value)
+    R[1,2] = - np.sin(angle_value)
+    R[2,1] =   np.sin(angle_value)
+    R[2,2] =   np.cos(angle_value)
+
+    return R
+
+def fun_create_Rotation_Matrix_Yaxis(angle_value):
+    """The function create a rotation matrix around the Y axis
+    that can be used for test."""
+
+    R = np.eye(3)
+    R[0,0] =   np.cos(angle_value)
+    R[0,2] =   np.sin(angle_value)
+    R[2,0] = - np.sin(angle_value)
+    R[2,2] =   np.cos(angle_value)
+
+    return R
+
 def fun_create_Rotation_Matrix_Zaxis(angle_value):
-    """The function create a rotation matrix around the z axis
+    """The function create a rotation matrix around the Z axis
     that can be used for test."""
 
     R = np.eye(3)
@@ -131,9 +155,9 @@ def fun_display_points_in_angle_texture_map(data_theta_phi, title='projection eq
     
     fig1 = plt.figure(figsize=(12,8))
     ax1 = fig1.add_subplot(111, aspect='equal')
-    ax1.add_patch(patches.Rectangle((- np.pi, - np.pi/2),   # (x,y)
-                                   2 * np.pi,        # width
-                                       np.pi,       # height
+    ax1.add_patch(patches.Rectangle((- np.pi, - np.pi/2), # (x,y)
+                                   2 * np.pi,             # width
+                                       np.pi,             # height
                                        alpha = 0.1))
     plt.plot(theta, phi,'.b')
     plt.xlim(- np.pi *1.1, np.pi*1.1)
@@ -204,17 +228,6 @@ def fun_display_two_sets_of_points_in_camera_frame(data_XYZ_a, data_XYZ_b, frame
     plt.ylim(0 - im_height / 8 , im_height +  im_height / 8)
     plt.title('ideal camera image')
 
-
-def fun_normalize_XYZ(data_XYZ):
-    """The function does what it should do."""
-    # get norm for each vector
-    norm_data_xyz = np.linalg.norm(data_XYZ,axis=0)
-
-    # normalize each vector
-    data_xyz = np.zeros(np.shape(data_XYZ))
-    data_xyz = data_XYZ / np.tile(norm_data_xyz,(3,1))
-    
-    return data_xyz
 
 def fun_normalize_XYZ(data_XYZ):
     """The function does what it should do."""
